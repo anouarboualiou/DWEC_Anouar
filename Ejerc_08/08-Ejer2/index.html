@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filtro Interactivo de Productos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light">
+
+  <div class="container py-4">
+    <h1 class="text-center mb-4 text-primary">🛒 Filtro Interactivo de Productos</h1>
+
+    <!-- Filtros -->
+    <form id="filtros" class="card p-3 mb-4 shadow-sm">
+      <div class="row g-3">
+
+        <!-- Buscar por nombre -->
+        <div class="col-md-3">
+          <label for="buscar" class="form-label fw-bold">Buscar por nombre</label>
+          <input type="text" id="buscar" class="form-control" placeholder="Ej. Laptop">
+        </div>
+
+        <!-- Categoría -->
+        <div class="col-md-3">
+          <label for="categoria" class="form-label fw-bold">Categoría</label>
+          <select id="categoria" class="form-select">
+            <option value="Todas">Todas</option>
+          </select>
+        </div>
+
+        <!-- Precio máximo -->
+        <div class="col-md-3">
+          <label for="precioMax" class="form-label fw-bold">Precio máximo: <span id="valorPrecio">0</span> €</label>
+          <input type="range" id="precioMax" class="form-range" min="0" max="2000" step="50" value="2000">
+        </div>
+
+        <!-- Ordenar por -->
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Ordenar por</label><br>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="orden" id="asc" value="asc" checked>
+            <label class="form-check-label" for="asc">Precio (ascendente)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="orden" id="desc" value="desc">
+            <label class="form-check-label" for="desc">Precio (descendente)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="orden" id="az" value="az">
+            <label class="form-check-label" for="az">Nombre (A-Z)</label>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- Lista de productos -->
+    <div id="listaProductos" class="row g-4"></div>
+  </div>
+
+  <script src="datos/productos.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
