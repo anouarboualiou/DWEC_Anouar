@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pop-up</title>
+
+</head>
+<body>
+
+  <h2>Soy un Pop-up</h2>
+  <p>Puedes cerrarme usando el botón de abajo.</p>
+
+  <button id="cerrar">Cerrar</button>
+
+  <script>
+    
+    document.getElementById("cerrar").addEventListener("click", () => {
+      
+      if (window.opener && !window.opener.closed) {
+        const titulo = window.opener.document.getElementById("titulo-principal");
+        if (titulo) titulo.textContent = "¡El pop-up te saluda! 👋";
+      }
+
+      window.close();
+    });
+  </script>
+
+</body>
+</html>

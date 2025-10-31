@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Pop-ups</title>
+  
+</head>
+<body>
+
+  <h1 id="titulo-principal">Página Principal</h1>
+
+  <button id="abrir">Abrir Pop-up Manualmente</button>
+  <button id="cerrar">Cerrar Pop-up</button>
+
+  <script>
+    let popupWindow = null;
+
+    
+    function abrirPopup() {
+      if (popupWindow && !popupWindow.closed) {
+        popupWindow.focus();
+        return;
+      }
+
+      
+      const width = 400;
+      const height = 300;
+
+      
+      const left = (window.innerWidth - width) / 2;
+      const top = 50;
+
+      popupWindow = window.open(
+        "popup.html",
+        "popupWindow",
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+    }
+
+    
