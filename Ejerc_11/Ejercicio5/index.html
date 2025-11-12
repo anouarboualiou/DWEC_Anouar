@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Interactivo</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  .option { margin: 5px 0; }
+  #results-summary { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h2>Quiz Interactivo</h2>
+<div id="quiz-container">
+  <button id="start-btn">Iniciar Quiz</button>
+</div>
+
+<div id="results-summary"></div>
+
+<script>
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+let userAnswers = [];
+
+const quizContainer = document.getElementById('quiz-container');
+const resultsContainer = document.getElementById('results-summary');
+
+document.getElementById('start-btn').addEventListener('click', () => {
+  fetch('questions.json')
+    .then(r => r.json())
+    .then(data => {
+      questions = data;
+      currentIndex = 0;
+      score = 0;
+      userAnswers = [];
+      showQuestion();
+    })
+    .catch(err => {
+      quizContainer.innerHTML = 'Error al cargar las preguntas';
+      console.error(err);
+    });
+});
+
+function showQuestion() {
+  const q = questions[currentIndex];
+  quizContainer.innerHTML = `
+    <h3>${q.text}</h3>
+    ${q.options.map(o => `
+      <div class="option">
+        <input type="radio" name="answer" value="${o.id}" id="opt-${o.id}">
+        <label for="opt-${o.id}">${o.text}</label>
+      </div>
+    `).join('')}
+    <button id="next-btn">${currentIndex === questions.length - 1 ? 'Finalizar' : 'Siguiente'}</button>
+  `;
+
+  document.getElementById('next-btn').addEventListener('click', () => {
+    const selected = document.querySelector('input[name="answer"]:checked');
+    if (!selected) { alert('Selecciona una opción'); return; }
+
+    const answer = selected.value;
+    userAnswers.push({ question: q.text, selected: answer, correct: q.correctAnswer, explanation: q.explanation });
+    if (answer === q.correctAnswer) score++;
+
+    currentIndex++;
+    if (currentIndex < questions.length) showQuestion();
+    else showResults();
+  });
+}
+
+function showResults() {
+  quizContainer.innerHTML = '';
+  resultsContainer.innerHTML = `<h3>Puntuación: ${score} / ${questions.length}</h3>`;
+  userAnswers.forEach(a => {
+    if (a.selected !== a.correct) {
+      resultsContainer.innerHTML += `<p><strong>Pregunta:</strong> ${a.question}<br>
+      <strong>Tu respuesta:</strong> ${a.selected}<br>
+      <strong>Explicación:</strong> ${a.explanation}</p>`;
+    }
+  });
+}
+</script>
+
+</body>
+</html>

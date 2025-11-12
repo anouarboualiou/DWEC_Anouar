@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Perfil de usuario</title>
+</head>
+<body>
+  <main>
+    <section id="user-profile" aria-labelledby="profile-heading">
+      <h1 id="profile-heading">Perfil de usuario</h1>
+
+      <!-- Formulario para mostrar/editar datos del usuario -->
+      <form id="profile-form" aria-describedby="profile-desc" novalidate>
+        <p id="profile-desc">Datos del usuario</p>
+
+        <!-- Nombre -->
+        <div class="field">
+          <label for="name">Nombre completo</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value="María Pérez"
+            readonly
+            aria-readonly="true"
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value="maria.perez@example.com"
+            readonly
+            aria-readonly="true"
+          />
+        </div>
+
+        <!-- Teléfono -->
+        <div class="field">
+          <label for="phone">Teléfono</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            value="+34 600 123 456"
+            readonly
+            aria-readonly="true"
+          />
+        </div>
+
+        <!-- Dirección completa -->
+        <fieldset>
+          <legend>Dirección completa</legend>
+
+          <div class="field">
+            <label for="street">Calle y número</label>
+            <input
+              id="street"
+              name="street"
+              type="text"
+              value="C/ Mayor, 10, 3ºA"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+
+          <div class="field">
+            <label for="city">Ciudad</label>
+            <input
+              id="city"
+              name="city"
+              type="text"
+              value="Madrid"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+
+          <div class="field">
+            <label for="postal">Código postal</label>
+            <input
+              id="postal"
+              name="postal"
+              type="text"
+              value="28013"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+
+          <div class="field">
+            <label for="country">País</label>
+            <input
+              id="country"
+              name="country"
+              type="text"
+              value="España"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+        </fieldset>
+
+        <!-- Preferencias -->
+
+        <fieldset>
+          <legend> Preferencias</legend>
+
+          <div class="field2">
+            <label for="theme">Tema</label>
+            <input
+              id="theme"
+              name="theme"
+              type="text"
+              value="light"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+
+          <div class="field2">
+            <label for="notifications">Notificaciones</label>
+            <input
+              id="notifications"
+              name="notifications"
+              type="text"
+              value="false"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+
+          <div class="field2">
+            <label for="language">Lenguaje</label>
+            <input
+              id="language"
+              name="language"
+              type="text"
+              value="es"
+              readonly
+              aria-readonly="true"
+            />
+          </div>
+        </fieldset>
+
+        <!-- Hobbies -->
+        <div class="field">
+          <label for="hobbies">Hobbies / Intereses</label>
+          <textarea
+            id="hobbies"
+            name="hobbies"
+            rows="4"
+            readonly
+            aria-readonly="true"
+          >Leer, senderismo, fotografía</textarea>
+        </div>
+
+        <!-- Botones -->
+        <div class="actions">
+          <!-- Botón para pasar a modo edición (implementación vía JS si se desea) -->
+          <button type="button" id="edit-btn" aria-controls="profile-form">Editar</button>
+
+          <!-- Botón para guardar cambios; oculto por defecto para que aparezca cuando se edite -->
+          <button type="submit" id="save-btn" hidden>Guardar cambios</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="./user-profile.js"></script>
+</body>
+</html>

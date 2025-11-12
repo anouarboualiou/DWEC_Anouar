@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Comentarios</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  #comments-list li { margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+  form { margin-bottom: 20px; }
+</style>
+</head>
+<body>
+
+<div id="comments-section">
+  <h2>Comentarios</h2>
+  <form id="comment-form">
+    <input type="text" id="author" placeholder="Nombre" required>
+    <br><br>
+    <textarea id="commentText" placeholder="Escribe tu comentario..." required></textarea>
+    <br><br>
+    <button type="submit">Enviar Comentario</button>
+  </form>
+
+  <ul id="comments-list"></ul>
+</div>
+
+<script>
+  const commentsList = document.getElementById('comments-list');
+
+  // Cargar comentarios iniciales
+  const xhrGet = new XMLHttpRequest();
+  xhrGet.open('GET', 'comments_initial.json', true);
+  xhrGet.onload = function() {
+    if (xhrGet.status === 200) {
+      const comments = JSON.parse(xhrGet.responseText);
+      comments.forEach(c => addCommentToList(c));
+    } else {
+      console.error('Error al cargar los comentarios iniciales');
+    }
+  };
+  xhrGet.send();
+
+  // Función para agregar comentario al DOM
+  function addCommentToList(comment) {
+    const li = document.createElement('li');
+    li.innerHTML = `<strong>${comment.author}</strong> (${new Date(comment.timestamp).toLocaleString()}):<br>${comment.commentText}`;
+    commentsList.appendChild(li);
+  }
+
+  // Enviar comentario
+  document.getElementById('comment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const author = document.getElementById('author').value;
+    const commentText = document.getElementById('commentText').value;
+    const newComment = {
+      author,
+      commentText,
+      timestamp: new Date().toISOString()
+    };
+
+    const xhrPost = new XMLHttpRequest();
+    xhrPost.open('POST', 'https://cors-anywhere.herokuapp.com/https://webhook.site/YOUR_UNIQUE_ID', true);
+    xhrPost.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+    xhrPost.onload = function() {
+      if (xhrPost.status >= 200 && xhrPost.status < 300) {
+        addCommentToList(newComment); // actualizar lista sin recargar
+        document.getElementById('comment-form').reset();
+      } else {
+        alert('Error al enviar comentario');
+      }
+    };
+
+    xhrPost.onerror = function() {
+      alert('Error de red al enviar comentario');
+    };
+
+    xhrPost.send(JSON.stringify(newComment));
+  });
+</script>
+
+</body>
+</html>

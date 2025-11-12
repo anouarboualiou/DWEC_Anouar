@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Productos</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  #controls select { margin-right: 10px; }
+  .product { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; }
+  .product img { width: 100px; margin-right: 15px; }
+</style>
+</head>
+<body>
+
+<h2>Catálogo de Productos</h2>
+<div id="catalog-container">
+  <div id="controls">
+    <select id="filter-category">
+      <option value="">Todas las categorías</option>
+    </select>
+    <select id="filter-brand">
+      <option value="">Todas las marcas</option>
+    </select>
+    <select id="sort-price">
+      <option value="">Ordenar por precio</option>
+      <option value="asc">Menor a mayor</option>
+      <option value="desc">Mayor a menor</option>
+    </select>
+  </div>
+
+  <div id="product-list"></div>
+</div>
+
+<script>
+let products = [];
+
+function renderProducts(list) {
+  const container = document.getElementById('product-list');
+  container.innerHTML = '';
+  list.forEach(p => {
+    const div = document.createElement('div');
+    div.classList.add('product');
+    div.innerHTML = `
+      <img src="${p.imageUrl}" alt="${p.name}">
+      <div>
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <p>Precio: $${p.price.toFixed(2)}</p>
+        <p>Categoría: ${p.category} | Marca: ${p.brand}</p>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Cargar productos
+fetch('products.json')
+  .then(response => response.json())
+  .then(data => {
+    products = data;
+    populateFilters();
+    renderProducts(products);
+  })
+  .catch(err => {
+    document.getElementById('product-list').innerText = 'Error al cargar los productos.';
+    console.error(err);
+  });
+
+// Llenar filtros
+function populateFilters() {
+  const categories = [...new Set(products.map(p => p.category))];
+  const brands = [...new Set(products.map(p => p.brand))];
+  
+  const catSelect = document.getElementById('filter-category');
+  categories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat;
+    option.textContent = cat;
+    catSelect.appendChild(option);
+  });
+
+  const brandSelect = document.getElementById('filter-brand');
+  brands.forEach(brand => {
+    const option = document.createElement('option');
+    option.value = brand;
+    option.textContent = brand;
+    brandSelect.appendChild(option);
+  });
+}
+
+// Filtros y orden
+document.getElementById('filter-category').addEventListener('change', applyFilters);
+document.getElementById('filter-brand').addEventListener('change', applyFilters);
+document.getElementById('sort-price').addEventListener('change', applyFilters);
+
+function applyFilters() {
+  let filtered = [...products];
+  const cat = document.getElementById('filter-category').value;
+  const brand = document.getElementById('filter-brand').value;
+  const sort = document.getElementById('sort-price').value;
+
+  if (cat) filtered = filtered.filter(p => p.category === cat);
+  if (brand) filtered = filtered.filter(p => p.brand === brand);
+
+  if (sort === 'asc') filtered.sort((a,b) => a.price - b.price);
+  else if (sort === 'desc') filtered.sort((a,b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Usuario</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  #loading-spinner { display: none; }
+  .widget { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; }
+</style>
+</head>
+<body>
+
+<h2>Panel de Usuario</h2>
+<div id="loading-spinner">Cargando datos...</div>
+<div id="user-widget" class="widget"></div>
+<div id="posts-widget" class="widget"></div>
+
+<script>
+const userWidget = document.getElementById('user-widget');
+const postsWidget = document.getElementById('posts-widget');
+const spinner = document.getElementById('loading-spinner');
+
+spinner.style.display = 'block';
+
+const userPromise = fetch('https://jsonplaceholder.typicode.com/users/1').then(r => r.json());
+const postsPromise = fetch('https://jsonplaceholder.typicode.com/posts?userId=1').then(r => r.json());
+
+Promise.allSettled([userPromise, postsPromise])
+  .then(results => {
+    spinner.style.display = 'none';
+
+    const [userResult, postsResult] = results;
+
+    // Usuario
+    if (userResult.status === 'fulfilled') {
+      const u = userResult.value;
+      userWidget.innerHTML = `
+        <h3>${u.name}</h3>
+        <p>Email: ${u.email}</p>
+        <p>Compañía: ${u.company.name}</p>
+        <p>Teléfono: ${u.phone}</p>
+      `;
+    } else {
+      userWidget.innerText = 'Error al cargar información del usuario';
+    }
+
+    // Posts
+    if (postsResult.status === 'fulfilled') {
+      const posts = postsResult.value.slice(-3).reverse(); // últimos 3
+      postsWidget.innerHTML = '<h3>Últimos Posts</h3>';
+      posts.forEach(p => {
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${p.title}</strong><p>${p.body}</p><hr>`;
+        postsWidget.appendChild(div);
+      });
+    } else {
+      postsWidget.innerText = 'Error al cargar posts del usuario';
+    }
+  })
+  .catch(err => {
+    spinner.style.display = 'none';
+    userWidget.innerText = 'Error general al cargar los datos';
+    postsWidget.innerText = 'Error general al cargar los datos';
+    console.error(err);
+  });
+</script>
+
+</body>
+</html>
