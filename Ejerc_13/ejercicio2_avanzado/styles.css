@@ -1,0 +1,16 @@
+body {
+    font-family: system-ui;
+    background: #f4f6fb;
+    padding: 20px
+}
+
+img.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px
+}
+
+.error {
+    color: #b91c1c;
+    font-size: 13px
+}

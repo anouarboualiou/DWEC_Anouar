@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ej2</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <main>
+        <h1>Ejercicio 2 - Avanzado</h1>
+        <div class="topbar">
+            <div class="controls"><button id="loadInitialBtn">Cargar Usuarios Iniciales</button><button
+                    id="refreshBtn">Refrescar</button></div>
+            <div class="search"><input id="searchInput" placeholder="Buscar..." /></div>
+        </div>
+        <div id="messages"></div>
+        <form id="userForm" novalidate><input id="userId" type="hidden" />
+            <div><label>Nombre<input id="firstName" required /></label>
+                <div id="err-firstName" class="error"></div>
+            </div>
+            <div><label>Apellidos<input id="lastName" required /></label>
+                <div id="err-lastName" class="error"></div>
+            </div>
+            <div><label>Email<input id="email" type="email" required /></label>
+                <div id="err-email" class="error"></div>
+            </div>
+            <div><label>Foto URL<input id="picture" type="url" required /></label>
+                <div id="err-picture" class="error"></div>
+            </div>
+            <div><button id="submitBtn">Añadir</button><button id="cancelEditBtn" type="button" hidden>Cancelar</button>
+            </div>
+        </form>
+        <div id="loading" hidden>...</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="usersTbody"></tbody>
+        </table>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

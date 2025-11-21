@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ej3</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <main>
+        <h1>Ejercicio 3 - Calificaciones</h1>
+        <div class="topbar">
+            <div class="controls"><button id="loadInitialBtn">Cargar Usuarios Iniciales</button><button
+                    id="refreshBtn">Refrescar</button></div>
+            <div class="search"><input id="searchInput" placeholder="Buscar..." /></div>
+        </div>
+        <div id="messages"></div>
+        <form id="userForm" novalidate><input id="userId" type="hidden" />
+            <div><label>Nombre<input id="firstName" required /></label>
+                <div id="err-firstName" class="error"></div>
+            </div>
+            <div><label>Apellidos<input id="lastName" required /></label>
+                <div id="err-lastName" class="error"></div>
+            </div>
+            <div><label>Email<input id="email" type="email" required /></label>
+                <div id="err-email" class="error"></div>
+            </div>
+            <div><label>Foto URL<input id="picture" type="url" required /></label>
+                <div id="err-picture" class="error"></div>
+            </div>
+            <div><button id="submitBtn">Añadir</button><button id="cancelEditBtn" type="button" hidden>Cancelar</button>
+            </div>
+        </form>
+        <div id="loading" hidden>...</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Calificaciones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="usersTbody"></tbody>
+        </table>
+        <div id="gradesModal" class="modal" hidden>
+            <div class="modal-content">
+                <h3 id="gradesTitle">Calificaciones - </h3>
+                <form id="gradesForm">
+                    <div><label>Matemáticas<input id="g-math" type="number" min="0" max="10" step="0.1" /></label>
+                        <div id="err-g-math" class="error"></div>
+                    </div>
+                    <div><label>Historia<input id="g-history" type="number" min="0" max="10" step="0.1" /></label>
+                        <div id="err-g-history" class="error"></div>
+                    </div>
+                    <div><label>Ciencia<input id="g-science" type="number" min="0" max="10" step="0.1" /></label>
+                        <div id="err-g-science" class="error"></div>
+                    </div>
+                    <div><label>Inglés<input id="g-english" type="number" min="0" max="10" step="0.1" /></label>
+                        <div id="err-g-english" class="error"></div>
+                    </div>
+                    <div><label>Arte<input id="g-art" type="number" min="0" max="10" step="0.1" /></label>
+                        <div id="err-g-art" class="error"></div>
+                    </div>
+                    <div><button id="saveGradesBtn">Guardar Calificaciones</button><button id="clearGradesBtn"
+                            type="button">Borrar Calificaciones</button><button id="closeGradesBtn"
+                            type="button">Cerrar</button></div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
