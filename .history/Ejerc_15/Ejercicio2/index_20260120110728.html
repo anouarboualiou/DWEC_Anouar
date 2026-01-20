@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tablero Kanban</title>
+
+  <style>
+
+  </style>
+</head>
+
+<body>
+
+  <h1>Tablero Kanban</h1>
+
+  <div class="board">
+
+    <div class="column" data-status="todo">
+      <h3>Por hacer</h3>
+      <div class="card" draggable="true" data-id="1">Tarea 1</div>
+      <div class="card" draggable="true" data-id="2">Tarea 2</div>
+      <div class="card" draggable="true" data-id="3">Tarea 3</div>
+    </div>
+
+    <div class="column" data-status="progress">
+      <h3>En progreso</h3>
+    </div>
+
+    <div class="column" data-status="done">
+      <h3>Finalizado</h3>
+    </div>
+
+  </div>
+
+  <script>
+    let draggedCard = null;
+
+    document.addEventListener("dragstart", e => {
+      if (!e.target.classList.contains("card")) return;
+
+      draggedCard = e.target;
+      draggedCard.classList.add("dragging");
+
+      const data = {
+        id: draggedCard.dataset.id,
+        status: draggedCard.parentElement.dataset.status
+      };
+
+      e.dataTransfer.setData("application/json", JSON.stringify(data));
+    });
+
+    document.addEventListener("dragend", () => {
+      if (draggedCard) {
+        draggedCard.classList.remove("dragging");
+        draggedCard = null;
+      }
+    });
+
+    document.querySelectorAll(".column").forEach(column => {
+
+      column.addEventListener("dragover", e => {
+        e.preventDefault();
+        column.classList.add("drag-over");
+
+        const afterElement = getDragAfterElement(column, e.clientY);
+        if (afterElement == null) {
+          column.appendChild(draggedCard);
+        } else {
+          column.insertBefore(draggedCard, afterElement);
+        }
+      });
+
+      column.addEventListener("dragleave", () => {
+        column.classList.remove("drag-over");
+      });
+
+      column.addEventListener("drop", e => {
+        e.preventDefault();
+        column.classList.remove("drag-over");
+
+        const data = JSON.parse(e.dataTransfer.getData("application/json"));
+        draggedCard.dataset.status = column.dataset.status;
+
+        console.log("Tarea actualizada:", data.id, "→", column.dataset.status);
+      });
+    });
+
+    function getDragAfterElement(container, y) {
+      const cards = [...container.querySelectorAll(".card:not(.dragging)")];
+
+      return cards.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+  </script>
+
+</body>
+</html>
