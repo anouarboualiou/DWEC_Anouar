@@ -1,0 +1,26 @@
+<h2>Libros Prestados</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>Prestatario</th>
+      <th>Fecha devolución</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% prestados.forEach(p => { %>
+      <tr>
+        <td><%= p.titulo %></td>
+        <td><%= p.autor %></td>
+        <td>
+          <a href="/prestamo/usuario?nombre=<%= encodeURIComponent(p.nombre_prestatario) %>">
+            <%= p.nombre_prestatario %>
+          </a>
+        </td>
+        <td><%= p.fecha_devolucion %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
