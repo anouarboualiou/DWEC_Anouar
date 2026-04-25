@@ -1,57 +1,56 @@
-const express = require('express');
-const morgan = require('morgan');
-const fs = require('fs');
-const path = require('path');
 
-const albumController = require('./album/controller');
-const artistaController = require('./artista/controller');
+const express = require('express')
+const path = require('path')
+const fs = require('fs')
+const morgan = require('morgan')
 
-const app = express();
+const layout = require('./views/layout')
 
+const app = express()
+const puerto = process.env.PORT || 3000;
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, 'access.log'),
-  { flags: 'a' }
-);
+const albumRoutes = require('./album/album.routes')
+const artistaRoutes = require('./artista/artista.routes')
 
-app.use(morgan('combined', { stream: accessLogStream }));
+//middleware
+app.use(express.urlencoded({extended: true}))
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(albumRoutes)
+app.use(artistaRoutes)
 
+//usar el css
+app.use(express.static(path.join(__dirname, 'public')))
 
+//crear archivo morgan
+const accesLogStream = fs.createWriteStream(path.join(__dirname,'acces.log'), {flags: 'a'})
+app.use(morgan('combined', {stream: accesLogStream}))
 
 app.get('/', (req, res) => {
-  res.send(`
-    <h1>Discoteca Virtual</h1>
-    <a href="/album">Ver álbumes</a><br>
-    <a href="/artista">Ver artistas</a>
-  `);
-});
+    const contenido = `
+        <div class="text-center">
 
+        <h1 class="mb-4">
+            Bienvenido a Discoteca Virtual
+        </h1>
 
-app.get('/album/form', albumController.form);
-app.get('/album/form/:id', albumController.form);
+        <p class="lead mb-5">
+            Gestiona artistas y álbumes.
+        </p>
 
-app.get('/album/delete/:id', albumController.delete);
+        <a href="/albumes" class="btn btn-primary btn-lg me-3">
+            Ver Álbumes
+        </a>
 
-app.get('/album', albumController.list);
+        <a href="/artistas" class="btn btn-dark btn-lg">
+            Ver Artistas
+        </a>
 
-app.post('/album/save', albumController.save);
+        </div>
+    `
 
+    res.send(layout('Inicio', contenido))
+})
 
-
-app.get('/artista/form', artistaController.form);
-app.get('/artista/form/:id', artistaController.form);
-
-app.get('/artista/:id', artistaController.detail);
-
-app.get('/artista', artistaController.list);
-app.post('/artista/save', artistaController.save);
-app.get('/artista/delete/:id', artistaController.delete);
-
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log('Servidor funcionando');
-});
+app.listen(puerto, () => {
+    console.log(`Servidor funcionando en puerto ${puerto}`)
+})
