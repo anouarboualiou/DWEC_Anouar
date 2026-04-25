@@ -22,8 +22,19 @@ app.use(artistaRoutes)
 app.use(express.static(path.join(__dirname, 'public')))
 
 //crear archivo morgan
-const accesLogStream = fs.createWriteStream(path.join(__dirname,'acces.log'), {flags: 'a'})
-app.use(morgan('combined', {stream: accesLogStream}))
+if (process.env.NODE_ENV === 'production') {
+
+    app.use(morgan('combined'));
+
+} else {
+
+    const accesLogStream = fs.createWriteStream(
+        path.join(__dirname, 'acces.log'),
+        { flags: 'a' }
+    );
+
+    app.use(morgan('combined', { stream: accesLogStream }));
+}
 
 app.get('/', (req, res) => {
     const contenido = `
