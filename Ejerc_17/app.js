@@ -51,6 +51,10 @@ app.get('/', (req, res) => {
     res.send(layout('Inicio', contenido))
 })
 
-app.listen(puerto, () => {
-    console.log(`Servidor funcionando en puerto ${puerto}`)
-})
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(puerto, () => {
+        console.log(`Servidor funcionando en puerto ${puerto}`)
+    })
+}
+
+module.exports = app;
