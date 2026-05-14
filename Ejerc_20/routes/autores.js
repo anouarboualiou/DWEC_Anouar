@@ -30,15 +30,17 @@ router.get('/', async(req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const nuevoAutor = new Autor(req.body)
 
-        const autorGuardado = await nuevoAutor.save()
+        const autoresGuardados = await Autor.insertMany(req.body)
 
-        res.status(201).json(autorGuardado)
+        res.status(201).json(autoresGuardados)
+
     } catch (error) {
+
         res.status(400).json({
             error: error.message
         })
+
     }
 })
 

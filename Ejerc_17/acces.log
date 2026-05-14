@@ -9,3 +9,5 @@
 ::1 - - [25/Apr/2026:11:12:02 +0000] "GET / HTTP/1.1" 304 - "http://localhost:3000/albumes" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
 ::1 - - [25/Apr/2026:11:49:56 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
 ::1 - - [25/Apr/2026:11:50:00 +0000] "GET / HTTP/1.1" 304 - "http://localhost:3000/albumes" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+::1 - - [14/May/2026:18:43:15 +0000] "GET / HTTP/1.1" 200 1359 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+::1 - - [14/May/2026:18:43:16 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"

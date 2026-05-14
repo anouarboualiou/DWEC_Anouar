@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+
+<div class="text-center py-5">
+
+    <h1 class="display-4 mb-4">
+        Plataforma de Portafolios
+    </h1>
+
+    <p class="lead text-muted mb-5">
+        Crea tu portfolio profesional y comparte tus proyectos.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3">
+
+        <% if(user) { %>
+
+            <a href="/dashboard" class="btn btn-primary btn-lg">
+                Ir al Dashboard
+            </a>
+
+            <a href="/portfolio/<%= user.username %>" class="btn btn-outline-dark btn-lg">
+                Mi Portfolio
+            </a>
+
+        <% } else { %>
+
+            <a href="/register" class="btn btn-success btn-lg">
+                Registrarse
+            </a>
+
+            <a href="/login" class="btn btn-primary btn-lg">
+                Login
+            </a>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>

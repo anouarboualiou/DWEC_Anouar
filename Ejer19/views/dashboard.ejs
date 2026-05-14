@@ -1,0 +1,245 @@
+<%- include('partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">
+            Bienvenido <strong><%= user.username %></strong>
+        </p>
+    </div>
+
+    <a href="/logout" class="btn btn-danger">
+        Cerrar sesión
+    </a>
+</div>
+
+<div class="row">
+
+    <!-- PERFIL -->
+    <div class="col-md-6 mb-4">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h3 class="card-title mb-4">Editar Perfil</h3>
+
+                <form action="/profile/update" method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Biografía</label>
+
+                        <textarea
+                            name="bio"
+                            class="form-control"
+                            rows="4"
+                        ><%= user.bio || '' %></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            value="<%= user.email || '' %>"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Foto URL</label>
+
+                        <input
+                            type="text"
+                            name="photo"
+                            class="form-control"
+                            value="<%= user.photo || '' %>"
+                        >
+                    </div>
+
+                    <button class="btn btn-primary w-100">
+                        Guardar Perfil
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AGREGAR PROYECTO -->
+    <div class="col-md-6 mb-4">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h3 class="card-title mb-4">Agregar Proyecto</h3>
+
+                <form action="/projects/add" method="POST">
+
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Título"
+                            class="form-control"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            name="repo_url"
+                            placeholder="Repositorio"
+                            class="form-control"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            name="live_url"
+                            placeholder="Demo"
+                            class="form-control"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Descripción"
+                        ></textarea>
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        Agregar Proyecto
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PROYECTOS -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <h3 class="mb-4">Mis Proyectos</h3>
+
+        <% projects.forEach(project => { %>
+
+            <div class="border rounded p-3 mb-3">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+                        <h5><%= project.title %></h5>
+
+                        <p class="text-muted">
+                            <%= project.description %>
+                        </p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <a
+                            href="/projects/edit/<%= project.id %>"
+                            class="btn btn-warning btn-sm"
+                        >
+                            Editar
+                        </a>
+
+                        <a
+                            href="/projects/delete/<%= project.id %>"
+                            class="btn btn-danger btn-sm"
+                        >
+                            Eliminar
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    </div>
+</div>
+
+<!-- REDES SOCIALES -->
+<div class="card shadow-sm mb-5">
+    <div class="card-body">
+
+        <h3 class="mb-4">Redes Sociales</h3>
+
+        <form action="/social/add" method="POST" class="row g-3 mb-4">
+
+            <div class="col-md-4">
+                <input
+                    type="text"
+                    name="platform"
+                    placeholder="GitHub"
+                    class="form-control"
+                >
+            </div>
+
+            <div class="col-md-6">
+                <input
+                    type="text"
+                    name="url"
+                    placeholder="URL"
+                    class="form-control"
+                >
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">
+                    Agregar
+                </button>
+            </div>
+
+        </form>
+
+        <% socialLinks.forEach(link => { %>
+
+            <div class="border rounded p-3 mb-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <strong><%= link.platform %></strong>
+
+                        <br>
+
+                        <a href="<%= link.url %>" target="_blank">
+                            <%= link.url %>
+                        </a>
+
+                    </div>
+
+                    <a
+                        href="/social/delete/<%= link.id %>"
+                        class="btn btn-danger btn-sm"
+                    >
+                        Eliminar
+                    </a>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    </div>
+</div>
+
+<%- include('partials/footer') %>

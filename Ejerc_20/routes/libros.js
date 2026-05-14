@@ -48,16 +48,16 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
 
-        const nuevoLibro = new Libro(req.body)
+        const librosGuardados = await Libro.insertMany(req.body)
 
-        const libroGuardado = await nuevoLibro.save()
-
-        res.status(201).json(libroGuardado)
+        res.status(201).json(librosGuardados)
 
     } catch (error) {
+
         res.status(400).json({
             error: error.message
         })
+
     }
 })
 

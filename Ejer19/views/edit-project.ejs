@@ -1,0 +1,80 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+
+    <div class="col-md-8">
+
+        <div class="card shadow-sm mt-5">
+
+            <div class="card-body p-4">
+
+                <h1 class="mb-4">Editar Proyecto</h1>
+
+                <form action="/projects/update/<%= project.id %>" method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            value="<%= project.title %>"
+                            class="form-control"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            rows="5"
+                        ><%= project.description %></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Repositorio</label>
+
+                        <input
+                            type="text"
+                            name="repo_url"
+                            value="<%= project.repo_url %>"
+                            class="form-control"
+                        >
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Demo URL</label>
+
+                        <input
+                            type="text"
+                            name="live_url"
+                            value="<%= project.live_url %>"
+                            class="form-control"
+                        >
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <a href="/dashboard" class="btn btn-secondary">
+                            Volver
+                        </a>
+
+                        <button class="btn btn-primary">
+                            Actualizar Proyecto
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>
