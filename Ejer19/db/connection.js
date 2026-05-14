@@ -2,10 +2,10 @@
 const mysql = require('mysql2')
 
 const connection = mysql.createConnection({
-    host: 'portfolio.c8clwpsat3yg.us-east-1.rds.amazonaws.com',
-    user: 'admin',
-    password: 'anouaranouar',
-    database: 'portfolio'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 })
 
 

@@ -29,6 +29,10 @@ app.get('/', (req, res) => {
 
 app.set('view engine', 'ejs');
 
-app.listen(3000, () => {
-    console.log('Servidor iniciado');
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(3000, () => {
+        console.log('Servidor iniciado');
+    });
+}
+
+module.exports = app;
