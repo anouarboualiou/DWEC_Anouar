@@ -1,13 +1,17 @@
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
 
-const express = require('express')
-const session = require('express-session')
 const authRoutes = require('./routes/auth');
 const dashboardRoutes = require('./routes/dashboard');
 const portfolioRoutes = require('./routes/portfolio');
 
-const app = express()
+const app = express();
 
-app.use(express.urlencoded({extended: true}))
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
     secret: 'portfolio-secret',
@@ -20,14 +24,10 @@ app.use('/', dashboardRoutes);
 app.use('/', portfolioRoutes);
 
 app.get('/', (req, res) => {
-
     res.render('home', {
         user: req.session.user
     });
-
 });
-
-app.set('view engine', 'ejs');
 
 if (process.env.NODE_ENV !== 'production') {
     app.listen(3000, () => {
