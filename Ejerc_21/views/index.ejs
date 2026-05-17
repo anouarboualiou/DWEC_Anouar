@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Alumnos</title>
+
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Registro de Alumnos</h1>
+
+    <form action="/crear" method="POST" enctype="multipart/form-data">
+
+      <label>Nombre:</label>
+      <input type="text" name="nombre" required>
+
+      <label>Apellidos:</label>
+      <input type="text" name="apellidos" required>
+
+      <label>Localidad:</label>
+      <input type="text" name="localidad" required>
+
+      <label>Imagen:</label>
+      <input type="file" name="imagen" accept="image/*" required>
+
+      <button type="submit">Agregar Alumno</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Fichas de Alumnos</h2>
+
+    <div class="cards">
+
+      <% alumnos.forEach(alumno => { %>
+
+        <div class="card">
+
+          <img
+            src="/imagenes/<%= encodeURIComponent(alumno.imagen) %>"
+            alt="Alumno"
+          >
+
+          <h3><%= alumno.nombre %> <%= alumno.apellidos %></h3>
+
+          <p><strong>ID:</strong> <%= alumno.id %></p>
+
+          <p><strong>Localidad:</strong> <%= alumno.localidad %></p>
+
+          <a href="/eliminar/<%= alumno.id %>">
+            <button class="delete">Eliminar Alumno</button>
+          </a>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
